@@ -1,0 +1,35 @@
+{
+  "name": "library-manager",
+  "version": "0.1.0",
+  "description": "A web-based library manager using Express, Sequelize, and Pug",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TottenDC/project10.git"
+  },
+  "keywords": [
+    "Express",
+    "Sequelize",
+    "SQLite",
+    "Manager"
+  ],
+  "author": "Daniel Totten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TottenDC/project10/issues"
+  },
+  "homepage": "https://github.com/TottenDC/project10#readme",
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0",
+    "pug": "2.0.0-beta11",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "sqlite3": "^4.0.6"
+  }
+}
