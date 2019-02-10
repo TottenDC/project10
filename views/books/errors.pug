@@ -1,0 +1,5 @@
+if(errors)
+    h2.error Sorry, an error has occured. Please submit again with required information.
+    ul.error
+        each error in errors 
+            li= error.message

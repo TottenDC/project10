@@ -17,7 +17,7 @@ router.get('/new', (req, res, next) => {
 });
 
 // POST new book form
-router.post('/new', (req, res, next) => {
+router.post('/', (req, res, next) => {
     Book.create(req.body).then(function (book) {
         res.redirect(`/books/${book.id}`);
     }).catch(function(err) {
