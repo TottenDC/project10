@@ -5,8 +5,14 @@ const Book = require('../models').Book;
 
 // GET all books
 router.get('/', (req, res, next) => {
-    Book.findAll().then( (books) => {
-        res.render('books/index', {books: books, title: 'Books'});
+  Book.findAll().then( (books) => {
+    req.pageLength = Math.ceil(books.length / 10);
+  });
+  next();
+}, (req, res, next) => {
+    let offset = ( req.query.page - 1) * 10;
+    Book.findAll({ offset: offset, limit: 10 }).then( (books) => {
+        res.render('books/index', {books: books, title: 'Books', pages: req.pageLength});
     }).catch( () => {
         next(createError(503));
     });

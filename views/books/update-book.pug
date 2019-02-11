@@ -3,10 +3,11 @@ extends ../layout.pug
 block content
 
     h1 Update Book
-
-    include errors
     
     form(method='post', action=`/books/${book.id}?_method=PUT`)
+    
+        include errors
+
         p
             label(for='title') Title
             input(name='title' type='text' id='title' value=`${book.title}`)

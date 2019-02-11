@@ -2,10 +2,11 @@ extends ../layout.pug
 
 block content
     h1 New Book
-    
-    include errors
 
     form(method='post', action='/books')
+
+        include errors
+
         p
             label(for='title') Title
             input(name='title' type='text' id='title')

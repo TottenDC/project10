@@ -19,4 +19,12 @@ block content
                     td #{book.author}
                     td #{book.genre} 
                     td #{book.year} 
+    p
+        - let n = 1;
+        ul
+            li 
+                b Page:
+            while n <= pages
+                li 
+                    a(class='button' href=`/books?page=${n}`) #{n++}
 
