@@ -1,7 +1,11 @@
+// Modules
 const express = require('express');
 const createError = require('http-errors');
-const router = express.Router();
+const Sequelize = require('sequelize');
 const Book = require('../models').Book;
+// Methods
+const Op = Sequelize.Op;
+const router = express.Router();
 
 // GET all books
 router.get('/', (req, res, next) => {
@@ -10,12 +14,55 @@ router.get('/', (req, res, next) => {
   });
   next();
 }, (req, res, next) => {
-    let offset = ( req.query.page - 1) * 10;
-    Book.findAll({ offset: offset, limit: 10 }).then( (books) => {
-        res.render('books/index', {books: books, title: 'Books', pages: req.pageLength});
+  let offset = ( req.query.page - 1) * 10;
+  Book.findAll({ offset: offset, limit: 10 }).then( (books) => {
+      res.render('books/index', {books: books, title: 'Books', display: true, pages: req.pageLength});
+  }).catch( () => {
+      next(createError(503));
+  });
+});
+
+// GET search results
+router.get('/search', (req, res, next) => {
+  if (isNaN(req.query.q)) {
+    Book.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${req.query.q}%`
+            }
+          },
+          {
+            author: {
+              [Op.like]: `%${req.query.q}%`
+            }
+          },
+          {
+            genre: {
+              [Op.like]: `%${req.query.q}%`
+            }
+          }
+        ]
+      }
+    }).then( (books) => {
+      res.render('books/index', {books: books, title: 'Results', display: false});
     }).catch( () => {
-        next(createError(503));
+      next(createError(503));
     });
+  } else {
+    Book.findAll({
+      where: {
+        year: {
+          [Op.like]: `%${req.query.q}%`
+        }
+      }
+    }).then( (books) => {
+      res.render('books/index', {books: books, title: 'Results', display: false});
+    }).catch( () => {
+      next(createError(503));
+    });
+  }
 });
 
 // GET new book form
@@ -53,40 +100,40 @@ router.get('/:id', (req, res, next) => {
 
 // POST an update to a specific book
 router.put('/:id', (req, res, next) => {
-    Book.findByPk(req.params.id).then( (book) => {
-      if(book) {
-        return book.update(req.body);
-      } else {
-        next(createError(404));
-      }
-    }).then( (book) => {
-      res.redirect(`/books/${book.id}`);
-    }).catch( (err) => {
-      if(err.name === 'SequelizeValidationError') {
-        let book = Book.build(req.body);
-        book.id =  req.params.id; 
-        res.render('books/update-book', {book: book, title: 'Add details', errors: err.errors});
-      } else {
-        throw err;
-      }
-    }).catch( () => {
-      next(createError(501));
-    });
+  Book.findByPk(req.params.id).then( (book) => {
+    if(book) {
+      return book.update(req.body);
+    } else {
+      next(createError(404));
+    }
+  }).then( (book) => {
+    res.redirect(`/books/${book.id}`);
+  }).catch( (err) => {
+    if(err.name === 'SequelizeValidationError') {
+      let book = Book.build(req.body);
+      book.id =  req.params.id; 
+      res.render('books/update-book', {book: book, title: 'Add details', errors: err.errors});
+    } else {
+      throw err;
+    }
+  }).catch( () => {
+    next(createError(501));
   });
+});
 
 // POST a delete for a specific book
 router.delete('/:id', (req, res, next) => {
-    Book.findByPk(req.params.id).then( (book) => {
-      if(book) {
-        return book.destroy();
-      } else {
-        next(createError(404));
-      }
-    }).then( () => {
-      res.redirect('/books');
-    }).catch( () => {
-      next(createError(501));
-    });
+  Book.findByPk(req.params.id).then( (book) => {
+    if(book) {
+      return book.destroy();
+    } else {
+      next(createError(404));
+    }
+  }).then( () => {
+    res.redirect('/books');
+  }).catch( () => {
+    next(createError(501));
   });
+});
 
 module.exports = router;
