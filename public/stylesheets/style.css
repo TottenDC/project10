@@ -1,6 +1,7 @@
 body {
   padding: 10px 50px 50px;
   font: 18px "Garamond", serif;
+  background-color: #fefefa;
 }
 
 a {
@@ -24,6 +25,10 @@ a.button, input[type=submit] {
   cursor: pointer;
 }
 
+a.cancel {
+  background: #017a5e;
+}
+
 form a.button, input[type=submit] {
   margin-left: 140px;
   transition: 0.4s;
@@ -31,6 +36,8 @@ form a.button, input[type=submit] {
 
 input[type=submit] {
   border: 0;
+  font-size: 14px;
+  font-weight: bold;
 }
 
   a.button:hover, input[type=submit]:hover {
@@ -84,12 +91,17 @@ input {
   font-size: 14px;
   border-radius: 2px;
   border-color: #E7E7E7;
+  background-color: #fcfcfc;
   transition: 0.4s;
 }
 
 input[type=text] {
   margin-left: 7px;
   width: 300px;
+}
+
+input[type=text]:focus {
+  background-color: whitesmoke;
 }
 
 li {

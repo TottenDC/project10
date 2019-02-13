@@ -5,7 +5,7 @@ block content
     form(class='search', action='/books/search', method='GET')
         input(type='search' name='q' placeholder='Find a book')
         input(class='button' type='submit' value='Search')
-        a(class='button' href="/") Cancel
+        a(class='button cancel' href="/") Cancel
     p
         a(class='button' href='/books/new') Create new book
     table

@@ -9,6 +9,7 @@ const router = express.Router();
 
 // GET all books
 router.get('/', (req, res, next) => {
+  // Determine the total number of books for pagination
   Book.findAll().then( (books) => {
     req.pageLength = Math.ceil(books.length / 10);
   });
@@ -23,6 +24,7 @@ router.get('/', (req, res, next) => {
 });
 
 // GET search results
+  // Page display is turned off for returned results
 router.get('/search', (req, res, next) => {
   if (isNaN(req.query.q)) {
     Book.findAll({
@@ -81,7 +83,7 @@ router.post('/', (req, res, next) => {
           throw err;
         }
       }).catch( () => {
-        next(createError(501))
+        next(createError(500))
       });
 });
 
@@ -91,7 +93,7 @@ router.get('/:id', (req, res, next) => {
         if (book) {
             res.render('books/update-book', {book: book, title: book.title})
         } else {
-            next(createError(404));
+            next(createError(400));
         }
     }).catch( () => {
         next(createError(503));
@@ -104,7 +106,7 @@ router.put('/:id', (req, res, next) => {
     if(book) {
       return book.update(req.body);
     } else {
-      next(createError(404));
+      next(createError(400));
     }
   }).then( (book) => {
     res.redirect(`/books/${book.id}`);
@@ -117,7 +119,7 @@ router.put('/:id', (req, res, next) => {
       throw err;
     }
   }).catch( () => {
-    next(createError(501));
+    next(createError(500));
   });
 });
 
@@ -127,12 +129,12 @@ router.delete('/:id', (req, res, next) => {
     if(book) {
       return book.destroy();
     } else {
-      next(createError(404));
+      next(createError(400));
     }
   }).then( () => {
     res.redirect('/books');
   }).catch( () => {
-    next(createError(501));
+    next(createError(500));
   });
 });
 
