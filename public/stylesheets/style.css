@@ -55,6 +55,11 @@ ul {
   line-height: 1.3em;
 }
 
+h1 {
+  font-size: 2em;
+  padding: 20px 0px;
+}
+
 h2 {
   border-top: 2px solid #e7e7e7;
   padding-top: 20px;
