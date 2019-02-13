@@ -9,7 +9,7 @@
 * I built the backend (Express app), created the Pug views, and updated the CSS to reflect personal style. 
 ## To Use:
 Download the project, then in your terminal, navigate to the directory and use `npm install` to download all dependencies.
-**Note**You will need to install [npm](https://www.npmjs.com/get-npm).
+**Note:** You will need to install [npm](https://www.npmjs.com/get-npm).
 
 Once installed, run `npm start` in your terminal to start a development server. Using your browser of choice, go to `localhost:3000`.
 
